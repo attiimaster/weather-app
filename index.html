@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+
+<body>
+
+  <div class="heading">
+    <h1>Check Your Local Weather - Quick and Easy</h1>
+    <p>You need to allow HTML5 GeoLocation.</p>
+  </div>
+
+  <div class="container">
+    
+    <div class="top">
+      
+      <form class="top-bar">
+        <input class="form-field" value="" type="input" placeholder="Enter city here">
+        <button class="form-button" type="submit">Search</button>
+      </form>
+      
+      <div>
+        <div class="icon-city-box">
+          <img id="icon"/>
+        </div>
+        <div id="city">Sistrans</div>
+      </div>
+
+      <div class="weather-desc-box">
+        Seems to be 
+        <div class="weather-desc" id="weatherDesc">asd</div>
+      </div>
+      
+      <div class="circle">
+        <div id="temp">50°C</div>
+      </div>
+
+      <div class="info-container">
+        <div class="info-box"><div class="info-content" id="humidity"><i class="wi wi-humidity"></i> 74 %</div></div>
+        <div class="info-box"><div class="info-content" id="windSpeed"><i class="wi wi-small-craft-advisory"></i> 74 %</div></div>
+        <div class="info-box"><div class="info-content" id="pressure"><i class="wi wi-barometer"></i> 74 %</div></div>
+        <div class="info-box"><div class="info-content" id="windDeg"><i class="wi wi-wind-direction"></i> 74 %</div></div>
+      </div>
+
+    </div>
+
+    <div>5-day-forecast</div>
+    <div class="forecast-container">
+      <div class="forecast-box"></div>
+    </div>
+
+    <div class="bottom">
+      <input id="celsius" type="radio" name="celToFahr" value="celsius" checked><label><i class="wi wi-celsius"></i> </label>
+      <input id="fahrenheit" type="radio" name="celToFahr" value="fahrenheit"><label><i class="wi wi-fahrenheit"></i> </label>
+    </div>
+  </div>
+
+</body>
+  
+  
+
+    <script  src="js/index.js"></script>
+
+</html>
