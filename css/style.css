@@ -1,13 +1,13 @@
 body { 
   background: linear-gradient(to top right, #ee9, lightblue);
   box-shadow: inset 0px 0px 100px 1px black;
-  font-family: lato;
+  font-family: "open sans", sans-serif;
   height: 100vh;
   margin: 0px;
 }
 .heading {
   color: white;
-  font-family: raleway;
+  font-family: raleway, sans-serif;
   padding: 20px;
   text-align: center;
   text-shadow: 0px 0px 10px black;
