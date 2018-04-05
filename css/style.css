@@ -19,7 +19,7 @@ body {
   color: white;
   font-size: 20px;
   margin: 5vh auto;
-  min-height: 668px;
+  min-height: 700px;
   position: relative;
   text-align: center;
   width: 98%;
@@ -32,7 +32,7 @@ body {
 .top-bar {
   background: rgba(255, 255, 255, 0.1);
   margin-bottom: 1vh;
-  padding: 4px 0;
+  padding: 6px 0;
 }
 .form-field {
   border-radius: 3px;
@@ -46,9 +46,8 @@ body {
   background: none;
   color: white;
   cursor: pointer;
-  font-size: 16px;
   letter-spacing: 1px;
-  padding: 0px 4px;
+  padding: 2px 4px;
   transition: all 0.2s ease;
 }
 .form-field:hover {

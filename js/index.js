@@ -6,7 +6,6 @@ function getGeoLocation() {
   };
 };
 
-var forecastData ;
 var jsonData ;
 
 function getData(position){
@@ -21,22 +20,15 @@ function getData(position){
 
 function appendData(data) {
   console.log(data);
+  $("#icon").attr("src", "https:" + data.current.condition.icon);
+  $("#weatherDesc").empty().append(data.current.condition.text);
   $("#temp").empty().append(data.current.temp_c + "°C");
   $("#city").empty().append(data.location.name + ", " + data.location.country);
   $("#windSpeed").empty().append('<i class="wi wi-small-craft-advisory"></i>' + data.current.wind_kph + " km/h");
   $("#windDeg").empty().append('<i class="wi wi-wind-direction"></i>' + data.current.wind_degree + "°");
-  $("#icon").attr("src", "https:" + data.current.condition.icon);
-  $("#weatherDesc").empty().append(data.current.condition.text);
   $("#humidity").empty().append('<i class="wi wi-humidity"></i>' + data.current.humidity + " %");
   $("#pressure").empty().append('<i class="wi wi-barometer"></i>' + data.current.pressure_mb + " hPa");
-  appendForecastData(data.forecast.forecastday);
-};
-
-function appendForecastData(arr) {
-  $(".forecast-container").empty();  
-  for(let i=0;i<5;i++) {
-    $(".forecast-container").append('<div class="forecast-box">' + arr[i].day.maxtemp_c + '°C<img style="width: 100%" src="https:' + arr[i].day.condition.icon + '"/><div class="forecast-temp">' +arr[i].day.mintemp_c + '°C</div><div class="forecast-box-day">' + getDay(i) + '</div></div>');
-  };
+  checkCelOrFahr();
 };
 
 function getDay(i) {
@@ -46,7 +38,7 @@ function getDay(i) {
   return dayStr;
 }
 
-function checkCF(){
+function checkCelOrFahr(){
   let arr = jsonData.forecast.forecastday;
   $(".forecast-container").empty();
   if ($("#celsius").is(":checked")) {
@@ -65,9 +57,12 @@ function checkCF(){
 
 getGeoLocation();
 
-$("#fahrenheit").on("click", checkCF);
-$("#celsius").on("click", checkCF);
+//celToFahr
+$("#fahrenheit").on("click", checkCelOrFahr);
+$("#celsius").on("click", checkCelOrFahr);
 
+
+//searchbar fetch
 $(".form-button").on("click", function(e) {
   e.preventDefault();
   let searchTerm = e.target.form[0].value;
@@ -75,8 +70,4 @@ $(".form-button").on("click", function(e) {
     jsonData = data;
     appendData(data);
   });
-});
-
-$("#test").on("click", function() {
-
 });
