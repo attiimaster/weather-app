@@ -9,17 +9,15 @@ function getGeoLocation() {
 var jsonData ;
 
 function getData(position){
-  $.getJSON("https://fcc-weather-api.glitch.me/api/current?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude, function(data, status, xhr) {
-    let searchTerm = data.name;
-    $.getJSON("https://api.apixu.com/v1/forecast.json?key=b7c8d803ca1543d2a71222120180204&q=" + searchTerm + "&days=5", function(data, status, xhr) {
-      jsonData = data;
-      appendData(data);
-    });
+  const searchTerm = position.coords.latitude + "," + position.coords.longitude;
+
+  $.getJSON("https://api.apixu.com/v1/forecast.json?key=b7c8d803ca1543d2a71222120180204&q=" + searchTerm + "&days=5", function(data, status, xhr) {
+    jsonData = data;
+    appendData(data);
   });
 };
 
 function appendData(data) {
-  console.log(data);
   $("#icon").attr("src", "https:" + data.current.condition.icon);
   $("#weatherDesc").empty().append(data.current.condition.text);
   $("#temp").empty().append(data.current.temp_c + "°C");
@@ -32,14 +30,14 @@ function appendData(data) {
 };
 
 function getDay(i) {
-  let x = new Date(jsonData.current.last_updated_epoch*1000);
-  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sa", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sa"];
-  let dayStr = days[x.getDay() + 1 + i];
+  const x = new Date(jsonData.current.last_updated_epoch*1000);
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sa", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sa"];
+  const dayStr = days[x.getDay() + 1 + i];
   return dayStr;
 }
 
 function checkCelOrFahr(){
-  let arr = jsonData.forecast.forecastday;
+  const arr = jsonData.forecast.forecastday;
   $(".forecast-container").empty();
   if ($("#celsius").is(":checked")) {
     $("#temp").empty().append(jsonData.current.temp_c + "°C");
