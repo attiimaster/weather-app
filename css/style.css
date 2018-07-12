@@ -2,7 +2,7 @@ body {
   background: linear-gradient(to top right, #ee9, lightblue);
   box-shadow: inset 0px 0px 100px 1px black;
   font-family: "open sans", sans-serif;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0px;
 }
 .heading {
@@ -130,4 +130,26 @@ img {
   left: 0;
   right: 0;
   width: 100%;
+}
+
+@media (max-width: 676px) {
+  .heading {
+    display: none;
+  }
+  .container {
+    font-size: 17px;
+    margin: 0 auto;
+    min-height: auto;
+  }
+  #city {
+    font-size: 19px;
+  }
+  .forecast-container {
+    font-size: 13px;
+  }
+  .forecast-box {
+    color: yellow;
+    margin: 10px 10px;
+    width: 20%;
+  }
 }
