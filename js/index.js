@@ -8,7 +8,9 @@ getGeoLocation();
 // adding EventListeners to all buttons
 $("#fahrenheit").click(convertCelFar);
 $("#celsius").click(convertCelFar);
-$(".form-button").click(searchWeather);
+$(".form-button").click(e => {
+  e.preventDefault();getWeather(e.target.form[0].value);
+});
 
 
 // ---------------------------------
@@ -17,37 +19,22 @@ $(".form-button").click(searchWeather);
 
 function getGeoLocation() {     
   if("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition(getWeather);
+    navigator.geolocation.getCurrentPosition(position => getWeather(`${position.coords.latitude},${position.coords.longitude}`));
   } else {
     alert("GeoLocation not available. Check if you enabled GeoLocation.");
   };
 };
 
 // weather by coords, if geolocation is enabled
-function getWeather(position){
-  const searchTerm = `${position.coords.latitude},${position.coords.longitude}`;
-
+function getWeather(searchTerm){
   // animate();
+  $("#loading").show().animate({ width: "60%" }, 500);
 
   $.getJSON(`https://api.apixu.com/v1/forecast.json?key=b7c8d803ca1543d2a71222120180204&q=${searchTerm}&days=5`, function(data, status, xhr) {
     jsonData = data;
     appendData(data);
-  });
+  }).fail($("#loading").animate({ width: "100%" }, 500, () => $("#loading").hide().css("width", "0%")));
 };
-
-// weather by region or city name
-function searchWeather(e) {
-  e.preventDefault();
-  const searchTerm = e.target.form[0].value;
-
-  // animate();
-  $("#loading").show().animate({ width: "50%" }, 500);
-
-  $.getJSON(`https://api.apixu.com/v1/forecast.json?key=b7c8d803ca1543d2a71222120180204&q=${searchTerm}&days=5`, function(data, status, xhr) {
-    jsonData = data;
-    appendData(data);
-  });
-}
 
 function appendData(data) {
   // animate();
