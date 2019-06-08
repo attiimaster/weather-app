@@ -27,6 +27,8 @@
         <button class="form-button" type="submit">Get Weather</button>
       </form>
       
+      <div id="loading"></div>
+      
       <div>
         <div class="icon-box">
           <img id="icon"/>
@@ -35,12 +37,11 @@
       </div>
 
       <div class="weather-desc-box">
-        Seems to be 
-        <div class="weather-desc" id="weatherDesc">pending...</div>
+        <div class="weather-desc" id="weatherDesc">Seems to be pending...</div>
       </div>
       
       <div class="circle">
-        <div id="temp">50°C</div>
+        <div id="temp">12°C</div>
       </div>
 
       <div class="info-container">
@@ -54,7 +55,21 @@
 
     <div>5-day-forecast</div>
     <div class="forecast-container">
-      <div class="forecast-box"></div>
+      <div class="forecast-box empty">
+        <img src="">
+      </div>
+      <div class="forecast-box empty">
+        <img src="">
+      </div>
+      <div class="forecast-box empty">
+        <img src="">
+      </div>
+      <div class="forecast-box empty">
+        <img src="">
+      </div>
+      <div class="forecast-box empty">
+        <img src="">
+      </div>
     </div>
 
     <div class="bottom">

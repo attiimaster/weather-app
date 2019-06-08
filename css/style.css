@@ -31,7 +31,6 @@ body {
 }
 .top-bar {
   background: rgba(255, 255, 255, 0.1);
-  margin-bottom: 1vh;
   padding: 6px 0;
 }
 .form-field {
@@ -58,11 +57,18 @@ body {
 }
 .icon-box {
   height: 100px;
+  margin-bottom: 2vh;
 }
 img {
   display: inline;
   margin: 0;
   padding: 0;
+}
+#loading {
+  border-bottom: 2px solid white;
+  position: absolute;
+  transition: all ease;
+  width: 0%;
 }
 #icon {
   width: 100px;
@@ -71,6 +77,7 @@ img {
   font-family: raleway;
   font-size: 22px;
   font-weight: 800;
+  min-height: 30px;
 }
 .circle {
   border: 3px solid white;
@@ -86,6 +93,7 @@ img {
 .weather-desc-box {}
 .weather-desc {
   display: inline-flex;
+  min-height: 30px;
   margin-bottom: 1vh;
 }
 .info-container {
@@ -113,6 +121,13 @@ img {
   color: yellow;
   margin: 10px 10px;
   width: 50px;
+}
+.forecast-box.empty img {
+  background: #999;
+  border-radius: 50%;
+  height: 70px;
+  width: 40px;
+  opacity: 0.1;
 }
 .forecast-temp {
   color: rgba(150, 180, 255);
