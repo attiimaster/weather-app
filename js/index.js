@@ -72,7 +72,7 @@ function appendForecast(format) {
   for(let i=0;i<5;i++) {
     $(".forecast-container").append(`
       <div class="forecast-box">
-        <div class="forecast-temp">${forecasts[i].day["maxtemp_" + format]}°${format.toUpperCase()}</div>
+        <div class="forecast-temp yellow">${forecasts[i].day["maxtemp_" + format]}°${format.toUpperCase()}</div>
         <img style="width: 100%" src="https:${forecasts[i].day.condition.icon}"/>
         <div class="forecast-temp">${forecasts[i].day["mintemp_" + format]}°${format.toUpperCase()}</div>
         <div class="forecast-box-day">${getDay(i)}</div>

@@ -57,7 +57,7 @@ body {
 }
 .icon-box {
   height: 100px;
-  margin-bottom: 2vh;
+  margin-top: 2vh;
 }
 img {
   display: inline;
@@ -128,6 +128,9 @@ img {
   height: 70px;
   width: 40px;
   opacity: 0.1;
+}
+.forecast-temp.yellow {
+  color: #f6ff18;
 }
 .forecast-temp {
   color: rgba(150, 180, 255);
