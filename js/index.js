@@ -1,38 +1,38 @@
 // 
 // 
 
+"use strict";
+
 // jsonData for switching between °C & °F
 var jsonData;   
 init();
-
-
-
 
 // ---------------------------------
 //            FUNCTIONS
 // ---------------------------------
 
 function init() {
-  // getGeoLocation();
-  
   const previousQuery = localStorage.getItem("previousQuery");
+  
   if (previousQuery) {
     getWeather(JSON.parse(previousQuery));
+  } else {
+    // getGeoLocation();
   }
 
   // adding EventListeners to all buttons
-  $("#fahrenheit").click(convertCelFar);
-  $("#celsius").click(convertCelFar);
-  $(".form-button").click(e => {
+  document.getElementById("fahrenheit").addEventListener("click", convertCelFar);
+  document.getElementById("celsius").addEventListener("click", convertCelFar);
+  document.querySelector(".form-button").addEventListener("click", e => {
     e.preventDefault();
     getWeather(e.target.form[0].value);
   });
-  $(".geo-button").click(getGeoLocation);
+  document.querySelector(".geo-button").addEventListener("click", getGeoLocation);
 }
 
 function getGeoLocation() {     
   if("geolocation" in navigator) {
-    $("#loading").show().animate({ width: "30%" }, 500);
+    document.getElementById("loading").className = "loading25";
     navigator.geolocation.getCurrentPosition(position => getWeather(`${position.coords.latitude},${position.coords.longitude}`));
   } else {
     alert("GeoLocation not available. Check if you enabled GeoLocation.");
@@ -42,45 +42,55 @@ function getGeoLocation() {
 // weather by coords (if geolocation is enabled) or city name
 function getWeather(query){
   // animate();
-  $("#loading").show().animate({ width: "60%" }, 500);
+  document.getElementById("loading").className = "loading50";
 
-  $.getJSON(`https://api.apixu.com/v1/forecast.json?key=b7c8d803ca1543d2a71222120180204&q=${query}&days=5`, function(data, status, xhr) {
+  fetch(`https://api.apixu.com/v1/forecast.json?key=b7c8d803ca1543d2a71222120180204&q=${query}&days=5`)
+  .then(res => res.json())
+  .then(data => {
     jsonData = data;
     localStorage && localStorage.setItem("previousQuery", JSON.stringify(query))
     appendData(data);
-  }).fail($("#loading").animate({ width: "100%" }, 500, () => $("#loading").hide().css("width", "0%")));
+  })
+  .catch(err => {
+    document.getElementById("loading").className = "loading100";
+    setTimeout(() => document.getElementById("loading").className = "loading0", 500);
+  });
 };
 
 function appendData(data) {
   // animate();
-  $("#loading").animate({ width: "100%" }, 500, () => $("#loading").hide().css("width", "0%"));
+  document.getElementById("loading").className = "loading75";
 
-  $("#icon").attr("src", "https:" + data.current.condition.icon);
-  $("#weatherDesc").empty().append(data.current.condition.text);
-  $("#temp").empty().append(data.current.temp_c + "°C");
-  $("#city").empty().append(data.location.name + ", " + data.location.country);
-  $("#windSpeed").empty().append(`<i class="wi wi-small-craft-advisory"></i>${data.current.wind_kph} km/h`);
-  $("#windDeg").empty().append(`<i class="wi wi-wind-direction"></i>${data.current.wind_degree}°`);
-  $("#humidity").empty().append(`<i class="wi wi-humidity"></i>${data.current.humidity} %`);
-  $("#pressure").empty().append(`<i class="wi wi-barometer"></i>${data.current.pressure_mb} hPa`);
+  document.getElementById("icon").setAttribute("src", `https:${data.current.condition.icon}`);
+  document.getElementById("weatherDesc").innerHTML = data.current.condition.text;
+  document.getElementById("temp").innerHTML = data.current.temp_c + "°C";
+  document.getElementById("city").innerHTML = data.location.name + ", " + data.location.country;
+  document.getElementById("windSpeed").innerHTML = `<i class="wi wi-small-craft-advisory"></i>${data.current.wind_kph} km/h`;
+  document.getElementById("windDeg").innerHTML = `<i class="wi wi-wind-direction"></i>${data.current.wind_degree}°`;
+  document.getElementById("humidity").innerHTML = `<i class="wi wi-humidity"></i>${data.current.humidity} %`;
+  document.getElementById("pressure").innerHTML = `<i class="wi wi-barometer"></i>${data.current.pressure_mb} hPa`;
   appendForecast();
+
+  document.getElementById("loading").className = "loading100";
+  setTimeout(() => document.getElementById("loading").className = "loading0", 500);
 };
 
 function appendForecast(format) {
   const forecasts = jsonData.forecast.forecastday;
   format = format || "c";
 
-  $(".forecast-container").empty();
-  for(let i=0;i<5;i++) {
-    $(".forecast-container").append(`
+  document.querySelector(".forecast-container").innerHTML = "";
+  const string = forecasts.map((el, i) => {
+    return `
       <div class="forecast-box">
         <div class="forecast-temp yellow">${forecasts[i].day["maxtemp_" + format]}°${format.toUpperCase()}</div>
         <img style="width: 100%" src="https:${forecasts[i].day.condition.icon}"/>
         <div class="forecast-temp">${forecasts[i].day["mintemp_" + format]}°${format.toUpperCase()}</div>
         <div class="forecast-box-day">${getDay(i)}</div>
       </div>
-    `);
-  };
+    `
+  });
+  document.querySelector(".forecast-container").innerHTML = string.join("");
 }
 
 function getDay(i) {
@@ -92,21 +102,8 @@ function getDay(i) {
 }
 
 function convertCelFar(){
-  const format = $("#celsius").is(":checked") ? "c" : "f";
+  const format = document.getElementById("celsius").checked ? "c" : "f";
 
-  $("#temp").empty().append(`${jsonData.current["temp_" + format]}°${format.toUpperCase()}`);
+  document.getElementById("temp").innerHTML = `${jsonData.current["temp_" + format]}°${format.toUpperCase()}`;
   appendForecast(format);
 };
-
-// test; unused / commented out
-function animate() {
-  $("#icon").hideToggle();
-  $("#weatherDesc").hideToggle();
-  $("#temp").hideToggle();
-  $("#city").hideToggle();
-  $("#windSpeed").hideToggle();
-  $("#windDeg").hideToggle();
-  $("#humidity").hideToggle();
-  $("#pressure").hideToggle();
-  $(".forecast-container").hideToggle();
-}

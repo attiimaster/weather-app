@@ -88,20 +88,15 @@ img {
   transition: none;
   width: 0%;
 }
-.loading25 {
+.loading30 {
   border-bottom: 2px solid white;
   transition: width 0.5s ease;
-  width: 25%;
+  width: 30%;
 }
-.loading50 {
+.loading60 {
   border-bottom: 2px solid white;
   transition: width 0.5s ease;
-  width: 50%;
-}
-.loading75 {
-  border-bottom: 2px solid white;
-  transition: width 0.5s ease;
-  width: 75%;
+  width: 60%;
 }
 .loading100 {
   border-bottom: 2px solid white;
