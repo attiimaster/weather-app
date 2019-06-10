@@ -22,9 +22,10 @@
     
     <div class="top">
       
-      <form class="top-bar">
-        <input class="form-field" value="" type="input" placeholder="Enter city here">
+      <form class="top-bar" autocomplete="on">
+        <input name="city" id="city-input" class="form-field" type="text" placeholder="Enter city here" autocomplete="on">
         <button class="form-button" type="submit">Get Weather</button>
+        <button class="geo-button" type="button"><i class="wi wi-thermometer-internal wi-rotate-180"></i></button>
       </form>
       
       <div id="loading"></div>

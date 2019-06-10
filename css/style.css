@@ -4,6 +4,7 @@ body {
   font-family: "open sans", sans-serif;
   min-height: 100vh;
   margin: 0px;
+  padding-bottom: 5vh;
 }
 .heading {
   color: white;
@@ -18,7 +19,7 @@ body {
   box-shadow: 0px 0px 10px 1px #555;
   color: white;
   font-size: 20px;
-  margin: 5vh auto;
+  margin: auto;
   min-height: 700px;
   position: relative;
   text-align: center;
@@ -54,6 +55,20 @@ body {
 }
 .form-button:hover {
   box-shadow: 0px 0px 4px 1px silver;
+}
+.geo-button {
+  background: none;
+  border: 1px solid white;
+  border-radius: 3px;
+  color: white;
+  cursor: pointer;
+  display: inline-flex;
+  padding: 4px 8px;
+  transform: all 0.2 ease;
+}
+.geo-button i {
+  margin: auto;
+  margin-bottom: -1px;
 }
 .icon-box {
   height: 100px;
