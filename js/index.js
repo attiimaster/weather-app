@@ -21,8 +21,8 @@ function init() {
   }
 
   // adding EventListeners to all buttons
-  document.getElementById("fahrenheit").addEventListener("click", convertCelFar);
-  document.getElementById("celsius").addEventListener("click", convertCelFar);
+  document.getElementById("fahrenheit").addEventListener("click", handleTempScaleChange);
+  document.getElementById("celsius").addEventListener("click", handleTempScaleChange);
   document.querySelector(".form-button").addEventListener("click", e => {
     e.preventDefault();
     getWeather(e.target.form[0].value);
@@ -43,7 +43,7 @@ function getGeoLocation() {
 function getWeather(query){
   document.getElementById("loading").className = "loading50";
 
-  animateOut();
+  fadeOutElements();
 
   fetch(`https://api.apixu.com/v1/forecast.json?key=b7c8d803ca1543d2a71222120180204&q=${query}&days=5`)
   .then(res => res.json())
@@ -68,16 +68,16 @@ function appendData(data) {
   document.getElementById("windDeg").innerHTML = `<i class="wi wi-wind-direction"></i>${data.current.wind_degree}°`;
   document.getElementById("humidity").innerHTML = `<i class="wi wi-humidity"></i>${data.current.humidity} %`;
   document.getElementById("pressure").innerHTML = `<i class="wi wi-barometer"></i>${data.current.pressure_mb} hPa`;
-  appendForecast();
+  fadeInElements();
 
-  animateIn();
+  appendForecast(data);
 
   document.getElementById("loading").className = "loading100";
   setTimeout(() => document.getElementById("loading").className = "loading0", 500);
 };
 
-function appendForecast(format) {
-  const forecasts = jsonData.forecast.forecastday;
+function appendForecast(data, format) {
+  const forecasts = data.forecast.forecastday;
   format = format || "c";
 
   document.querySelector(".forecast-container").innerHTML = "";
@@ -92,6 +92,7 @@ function appendForecast(format) {
     `
   });
   document.querySelector(".forecast-container").innerHTML = string.join("");
+  fadeInForecasts();
 }
 
 function getDay(i) {
@@ -102,48 +103,39 @@ function getDay(i) {
   return dayStr;
 }
 
-function convertCelFar(){
+function handleTempScaleChange(){
+  // onClickEvent for Fahrenheit && Celsius buttons
   const format = document.getElementById("celsius").checked ? "c" : "f";
+  const tempElement = document.getElementById("temp");
 
-  document.getElementById("temp").innerHTML = `${jsonData.current["temp_" + format]}°${format.toUpperCase()}`;
-  appendForecast(format);
+  tempElement.classList.remove("animate");
+  tempElement.innerHTML = `${jsonData.current["temp_" + format]}°${format.toUpperCase()}`;
+  setTimeout(() => tempElement.classList.add("animate"), 100);
+
+  appendForecast(jsonData, format);
 };
 
-// animation functions; pretty rough lol
-function animateIn() {
+
+
+// animation functions;
+// forecast animation works a bit differently, injects html (bad!) and no .toAnimate (CSS)
+
+function fadeInElements() {
   // fade in elements with css (eg. #div.show { opacity: 1 })
-  document.getElementById("icon").classList.add("show"); 
-  document.getElementById("weatherDesc").classList.add("show"); 
-  document.getElementById("temp").classList.add("show");
-  document.getElementById("city").classList.add("show");
-  document.getElementById("windSpeed").classList.add("show");
-  document.getElementById("windDeg").classList.add("show");
-  document.getElementById("humidity").classList.add("show"); 
-  document.getElementById("pressure").classList.add("show"); 
-  document.querySelector(".forecast-container").classList.add("show"); 
-
-  const arr = document.querySelectorAll(".forecast-box");
-
-  arr.forEach((el, i) => {
-    setTimeout(() => el.classList.add("show"), 100 * (i+1));
-  }); 
+  const elements = document.querySelectorAll(".toAnimate");
+  elements.forEach((el, i) => el.classList.add("animate"));
 }
 
-function animateOut() {
+function fadeInForecasts() {
+  const forecastBoxes = document.querySelectorAll(".forecast-box");
+  forecastBoxes.forEach((el, i) => setTimeout(() => el.classList.add("animate"), 100 * (i+1))); 
+}
+
+function fadeOutElements() {
   // actually removes elements instantly without any animation
-  document.getElementById("icon").classList.remove("show"); 
-  document.getElementById("weatherDesc").classList.remove("show"); 
-  document.getElementById("temp").classList.remove("show");
-  document.getElementById("city").classList.remove("show");
-  document.getElementById("windSpeed").classList.remove("show");
-  document.getElementById("windDeg").classList.remove("show");
-  document.getElementById("humidity").classList.remove("show"); 
-  document.getElementById("pressure").classList.remove("show");
-  document.querySelector(".forecast-container").classList.remove("show"); 
+  const elements = document.querySelectorAll(".toAnimate");
+  elements.forEach((el, i) => el.classList.remove("animate"));
 
-  const arr = document.querySelectorAll(".forecast-box");
-
-  arr.forEach((el, i) => {
-    setTimeout(() => el.classList.remove("show"), 100 * (i+1));
-  }); 
+  const forecastBoxes = document.querySelectorAll(".forecast-box");
+  forecastBoxes.forEach(el => el.classList.remove("animate")); 
 }
