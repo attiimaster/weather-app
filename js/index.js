@@ -41,8 +41,9 @@ function getGeoLocation() {
 
 // weather by coords (if geolocation is enabled) or city name
 function getWeather(query){
-  // animate();
   document.getElementById("loading").className = "loading50";
+
+  animateOut();
 
   fetch(`https://api.apixu.com/v1/forecast.json?key=b7c8d803ca1543d2a71222120180204&q=${query}&days=5`)
   .then(res => res.json())
@@ -58,9 +59,7 @@ function getWeather(query){
 };
 
 function appendData(data) {
-  // animate();
   document.getElementById("loading").className = "loading75";
-
   document.getElementById("icon").setAttribute("src", `https:${data.current.condition.icon}`);
   document.getElementById("weatherDesc").innerHTML = data.current.condition.text;
   document.getElementById("temp").innerHTML = data.current.temp_c + "°C";
@@ -70,6 +69,8 @@ function appendData(data) {
   document.getElementById("humidity").innerHTML = `<i class="wi wi-humidity"></i>${data.current.humidity} %`;
   document.getElementById("pressure").innerHTML = `<i class="wi wi-barometer"></i>${data.current.pressure_mb} hPa`;
   appendForecast();
+
+  animateIn();
 
   document.getElementById("loading").className = "loading100";
   setTimeout(() => document.getElementById("loading").className = "loading0", 500);
@@ -107,3 +108,42 @@ function convertCelFar(){
   document.getElementById("temp").innerHTML = `${jsonData.current["temp_" + format]}°${format.toUpperCase()}`;
   appendForecast(format);
 };
+
+// animation functions; pretty rough lol
+function animateIn() {
+  // fade in elements with css (eg. #div.show { opacity: 1 })
+  document.getElementById("icon").classList.add("show"); 
+  document.getElementById("weatherDesc").classList.add("show"); 
+  document.getElementById("temp").classList.add("show");
+  document.getElementById("city").classList.add("show");
+  document.getElementById("windSpeed").classList.add("show");
+  document.getElementById("windDeg").classList.add("show");
+  document.getElementById("humidity").classList.add("show"); 
+  document.getElementById("pressure").classList.add("show"); 
+  document.querySelector(".forecast-container").classList.add("show"); 
+
+  const arr = document.querySelectorAll(".forecast-box");
+
+  arr.forEach((el, i) => {
+    setTimeout(() => el.classList.add("show"), 100 * (i+1));
+  }); 
+}
+
+function animateOut() {
+  // actually removes elements instantly without any animation
+  document.getElementById("icon").classList.remove("show"); 
+  document.getElementById("weatherDesc").classList.remove("show"); 
+  document.getElementById("temp").classList.remove("show");
+  document.getElementById("city").classList.remove("show");
+  document.getElementById("windSpeed").classList.remove("show");
+  document.getElementById("windDeg").classList.remove("show");
+  document.getElementById("humidity").classList.remove("show"); 
+  document.getElementById("pressure").classList.remove("show");
+  document.querySelector(".forecast-container").classList.remove("show"); 
+
+  const arr = document.querySelectorAll(".forecast-box");
+
+  arr.forEach((el, i) => {
+    setTimeout(() => el.classList.remove("show"), 100 * (i+1));
+  }); 
+}
