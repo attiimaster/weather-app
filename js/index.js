@@ -21,8 +21,8 @@ function init() {
   }
 
   // adding EventListeners to all buttons
-  document.getElementById("fahrenheit").addEventListener("click", handleTempScaleChange);
-  document.getElementById("celsius").addEventListener("click", handleTempScaleChange);
+  document.getElementById("fahrenheit").addEventListener("click", changeTemperatureUnit);
+  document.getElementById("celsius").addEventListener("click", changeTemperatureUnit);
   document.querySelector(".form-button").addEventListener("click", e => {
     e.preventDefault();
     getWeather(e.target.form[0].value);
@@ -57,6 +57,9 @@ function getWeather(query){
     setTimeout(() => document.getElementById("loading").className = "loading0", 500);
   });
 };
+
+
+// DOM manipulation
 
 function appendData(data) {
   document.getElementById("loading").className = "loading75";
@@ -95,6 +98,21 @@ function appendForecast(data, format) {
   fadeInForecasts();
 }
 
+function changeTemperatureUnit(){
+  // onClickEvent for Fahrenheit && Celsius buttons
+  const format = document.getElementById("celsius").checked ? "c" : "f";
+  const tempElement = document.getElementById("temp");
+
+  tempElement.classList.remove("animate");  // hacky animate
+  tempElement.innerHTML = `${jsonData.current["temp_" + format]}°${format.toUpperCase()}`;
+  setTimeout(() => tempElement.classList.add("animate"), 100);
+
+  appendForecast(jsonData, format);
+};
+
+
+// misc functions
+
 function getDay(i) {
   const x = new Date(jsonData.current.last_updated_epoch*1000);
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sa", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sa"];
@@ -103,22 +121,8 @@ function getDay(i) {
   return dayStr;
 }
 
-function handleTempScaleChange(){
-  // onClickEvent for Fahrenheit && Celsius buttons
-  const format = document.getElementById("celsius").checked ? "c" : "f";
-  const tempElement = document.getElementById("temp");
-
-  tempElement.classList.remove("animate");
-  tempElement.innerHTML = `${jsonData.current["temp_" + format]}°${format.toUpperCase()}`;
-  setTimeout(() => tempElement.classList.add("animate"), 100);
-
-  appendForecast(jsonData, format);
-};
-
-
 
 // animation functions;
-// forecast animation works a bit differently, injects html (bad!) and no .toAnimate (CSS)
 
 function fadeInElements() {
   // fade in elements with css (eg. #div.show { opacity: 1 })
@@ -127,6 +131,7 @@ function fadeInElements() {
 }
 
 function fadeInForecasts() {
+  // forecast animation works a bit differently, injects html (bad!) and no .toAnimate (CSS)
   const forecastBoxes = document.querySelectorAll(".forecast-box");
   forecastBoxes.forEach((el, i) => setTimeout(() => el.classList.add("animate"), 100 * (i+1))); 
 }
